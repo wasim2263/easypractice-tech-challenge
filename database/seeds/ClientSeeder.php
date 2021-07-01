@@ -15,7 +15,7 @@ class ClientSeeder extends Seeder
     {
         // $user = User::first() ?? factory(User::class)->create();
 
-        factory(Client::class, 100)->create([
+        factory(Client::class, 150)->create([
             // 'user_id' => $user->id,
         ]);
     }
