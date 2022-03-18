@@ -10,12 +10,12 @@ Welcome to the EasyPractice tech challenge! Below you'll find a list of tasks to
 4. Run `composer install`, `php artisan key:generate`, `php artisan migrate`, `npm install` and `npm run dev` (ignore the build warnings)
 5. Open up the project in the browser and click on "Register" to create a new user. All the work will be done while logged in.
 6. Code indentation should be set up at 4 spaces in both PHP and JS files.
-7. Work through the tasks. Commit as often as you like.
+7. Work through the tasks in a new branch named `challenge/{your-name}`. Commit as often as you like.
 8. Once you have completed the tasks, create a new [Pull Request](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) and send us the link to it.
 
 ## The tasks
 
-Complete as many as you can. If you got some time left, there's some BONUS tasks, but they're not required ;)
+Complete as many as you can. If you got some time left, there's BONUS tasks, but they're not required ;)
 
 **Solve this first:**
 - [ ] (BUG) I created some seeders that you can run with `php artisan db:seed`, but it gives an error. Can you make it work?
@@ -39,4 +39,4 @@ Complete as many as you can. If you got some time left, there's some BONUS tasks
 
 ## Thank You!
 
-Thank you so much for participating in this tech challenge. Hope you had fun! If you have any suggestions, please email me at arunas@easypractice.net
+Thank you so much for participating in this tech challenge. Hope you had fun! If you have any questions or suggestions, please email us at karolis@mangoapps.dk
