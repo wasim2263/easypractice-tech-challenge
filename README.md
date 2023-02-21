@@ -39,4 +39,4 @@ Complete as many as you can. If you got some time left, there's BONUS tasks, but
 
 ## Thank You!
 
-Thank you so much for participating in this tech challenge. Hope you had fun! If you have any questions or suggestions, please email us at weyland@mangoapps.dk
+Thank you so much for participating in this tech challenge. Hope you had fun! If you have any questions or suggestions, please email us at development@easypractice.net
