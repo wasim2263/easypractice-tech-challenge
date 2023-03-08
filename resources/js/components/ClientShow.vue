@@ -101,9 +101,9 @@ export default {
             currentTab: 'bookings',
             filteredBookings: this.client.bookings,
             bookingFilterOptions: [
-                {title: 'All', value: 'all'},
-                {title: 'Future', value: 'future'},
-                {title: 'Past', value: 'past'}
+                {title: 'All bookings', value: 'all'},
+                {title: 'Future bookings only', value: 'future'},
+                {title: 'Past bookings only"', value: 'past'}
             ],
             selectedBookingFilter: 'all',
         }

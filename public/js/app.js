@@ -2086,13 +2086,13 @@ __webpack_require__.r(__webpack_exports__);
       currentTab: 'bookings',
       filteredBookings: this.client.bookings,
       bookingFilterOptions: [{
-        title: 'All',
+        title: 'All bookings',
         value: 'all'
       }, {
-        title: 'Future',
+        title: 'Future bookings only',
         value: 'future'
       }, {
-        title: 'Past',
+        title: 'Past bookings only"',
         value: 'past'
       }],
       selectedBookingFilter: 'all'
