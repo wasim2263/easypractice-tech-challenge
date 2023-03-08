@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 //      Eager loading: it will make only 2 queries when the previous one used to make n+1 queries.
-        $clients = Client::with('bookings')->withCount('bookings')->get();
+        $clients = $request->user()->clients()->with('bookings')->withCount('bookings')->get();
 
         return view('clients.index', ['clients' => $clients]);
     }
@@ -20,9 +20,9 @@ class ClientsController extends Controller
         return view('clients.create');
     }
 
-    public function show($client)
+    public function show(Client $client)
     {
-        $client = Client::where('id', $client)->first();
+        $client = Client::where('id', $client)->with('bookings')->first();
 
         return view('clients.show', ['client' => $client]);
     }
