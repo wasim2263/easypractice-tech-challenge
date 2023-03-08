@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClientCreateRequest extends FormRequest
 {
@@ -31,7 +32,10 @@ class ClientCreateRequest extends FormRequest
             'email' => [
                 'nullable',
                 'required_without:phone',
-                'email:rfc,dns'
+                'email:rfc,dns',
+                Rule::unique('clients')->where(function ($query) {
+                    return $query->where('user_id', $this->user()->id);
+                })
             ],
             'phone' => [
                 'nullable',

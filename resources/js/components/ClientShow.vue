@@ -8,22 +8,22 @@
                     <h2>Client Info</h2>
                     <table>
                         <tbody>
-                            <tr>
-                                <th class="text-gray-600 pr-3">Name</th>
-                                <td>{{ client.name }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-gray-600 pr-3">Email</th>
-                                <td>{{ client.email }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-gray-600 pr-3">Phone</th>
-                                <td>{{ client.phone }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-gray-600 pr-3">Address</th>
-                                <td>{{ client.address }}<br/>{{ client.postcode}} {{client.city}}</td>
-                            </tr>
+                        <tr>
+                            <th class="text-gray-600 pr-3">Name</th>
+                            <td>{{ client.name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-gray-600 pr-3">Email</th>
+                            <td>{{ client.email }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-gray-600 pr-3">Phone</th>
+                            <td>{{ client.phone }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-gray-600 pr-3">Address</th>
+                            <td>{{ client.address }}<br/>{{ client.postcode }} {{ client.city }}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -31,8 +31,14 @@
 
             <div class="w-2/3">
                 <div>
-                    <button class="btn" :class="{'btn-primary': currentTab == 'bookings', 'btn-default': currentTab != 'bookings'}" @click="switchTab('bookings')">Bookings</button>
-                    <button class="btn" :class="{'btn-primary': currentTab == 'journals', 'btn-default': currentTab != 'journals'}" @click="switchTab('journals')">Journals</button>
+                    <button class="btn"
+                            :class="{'btn-primary': currentTab == 'bookings', 'btn-default': currentTab != 'bookings'}"
+                            @click="switchTab('bookings')">Bookings
+                    </button>
+                    <button class="btn"
+                            :class="{'btn-primary': currentTab == 'journals', 'btn-default': currentTab != 'journals'}"
+                            @click="switchTab('journals')">Journals
+                    </button>
                 </div>
 
                 <!-- Bookings -->
@@ -46,20 +52,21 @@
                     <template v-if="filteredBookings && filteredBookings.length > 0">
                         <table>
                             <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Notes</th>
-                                    <th>Actions</th>
-                                </tr>
+                            <tr>
+                                <th>Time</th>
+                                <th>Notes</th>
+                                <th>Actions</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="booking in filteredBookings" :key="booking.id">
-                                    <td>{{ booking.booking_time}}</td>
-                                    <td>{{ booking.notes }}</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm" @click="deleteBooking(booking)">Delete</button>
-                                    </td>
-                                </tr>
+                            <tr v-for="booking in filteredBookings" :key="booking.id">
+                                <td>{{ booking.booking_time }}</td>
+                                <td>{{ booking.notes }}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @click="deleteBooking(booking)">Delete
+                                    </button>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </template>
@@ -83,6 +90,7 @@
 
 <script>
 import axios from 'axios';
+
 export default {
     name: 'ClientShow',
 
@@ -93,9 +101,9 @@ export default {
             currentTab: 'bookings',
             filteredBookings: this.client.bookings,
             bookingFilterOptions: [
-                { title: 'All', value: 'all' },
-                { title: 'Future', value: 'future' },
-                { title: 'Past', value: 'past' }
+                {title: 'All', value: 'all'},
+                {title: 'Future', value: 'future'},
+                {title: 'Past', value: 'past'}
             ],
             selectedBookingFilter: 'all',
         }
@@ -119,7 +127,6 @@ export default {
                         return startDateTime > currentDateTime;
                     }
                 )
-                console.log(this.filteredBookings)
             } else if (this.selectedBookingFilter === "past") {
 
                 this.filteredBookings = this.client.bookings.filter(
@@ -127,8 +134,7 @@ export default {
                         const startDateTime = (new Date(booking.start)).getTime();
                         return startDateTime < currentDateTime;
                     })
-            }
-            else {
+            } else {
                 this.filteredBookings = this.client.bookings;
             }
         },

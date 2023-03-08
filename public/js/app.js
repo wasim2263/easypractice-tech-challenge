@@ -2070,6 +2070,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientShow',
@@ -2106,7 +2113,6 @@ __webpack_require__.r(__webpack_exports__);
           var startDateTime = new Date(booking.start).getTime();
           return startDateTime > currentDateTime;
         });
-        console.log(this.filteredBookings);
       } else if (this.selectedBookingFilter === "past") {
         this.filteredBookings = this.client.bookings.filter(function (booking) {
           var startDateTime = new Date(booking.start).getTime();
@@ -38167,7 +38173,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Bookings")]
+            [_vm._v("Bookings\n                ")]
           ),
           _vm._v(" "),
           _c(
@@ -38184,7 +38190,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Journals")]
+            [_vm._v("Journals\n                ")]
           )
         ]),
         _vm._v(" "),
@@ -38271,7 +38277,11 @@ var render = function() {
                                       }
                                     }
                                   },
-                                  [_vm._v("Delete")]
+                                  [
+                                    _vm._v(
+                                      "Delete\n                                "
+                                    )
+                                  ]
                                 )
                               ])
                             ])
