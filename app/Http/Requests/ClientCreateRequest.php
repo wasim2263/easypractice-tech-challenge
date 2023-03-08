@@ -40,7 +40,10 @@ class ClientCreateRequest extends FormRequest
             'phone' => [
                 'nullable',
                 'required_without:email',
-                'regex:/^\+?[0-9\s]+$/'
+                'regex:/^\+?[0-9\s]+$/',
+                Rule::unique('clients')->where(function ($query) {
+                    return $query->where('user_id', $this->user()->id);
+                })
             ]
         ];
     }
