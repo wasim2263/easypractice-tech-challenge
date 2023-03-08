@@ -2066,13 +2066,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientShow',
   props: ['client'],
   data: function data() {
     return {
-      currentTab: 'bookings'
+      currentTab: 'bookings',
+      filteredBookings: this.client.bookings,
+      bookingFilterOptions: [{
+        title: 'All',
+        value: 'all'
+      }, {
+        title: 'Future',
+        value: 'future'
+      }, {
+        title: 'Past',
+        value: 'past'
+      }],
+      selectedBookingFilter: 'all'
     };
   },
   methods: {
@@ -2081,6 +2097,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     deleteBooking: function deleteBooking(booking) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/bookings/".concat(booking.id));
+    },
+    updateList: function updateList() {
+      var currentDateTime = new Date().getTime();
+
+      if (this.selectedBookingFilter === "future") {
+        this.filteredBookings = this.client.bookings.filter(function (booking) {
+          var startDateTime = new Date(booking.start).getTime();
+          return startDateTime > currentDateTime;
+        });
+        console.log(this.filteredBookings);
+      } else if (this.selectedBookingFilter === "past") {
+        this.filteredBookings = this.client.bookings.filter(function (booking) {
+          var startDateTime = new Date(booking.start).getTime();
+          return startDateTime < currentDateTime;
+        });
+      } else {
+        this.filteredBookings = this.client.bookings;
+      }
     }
   }
 });
@@ -38163,14 +38197,64 @@ var render = function() {
                   _vm._v("List of client bookings")
                 ]),
                 _vm._v(" "),
-                _vm.client.bookings && _vm.client.bookings.length > 0
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedBookingFilter,
+                        expression: "selectedBookingFilter"
+                      }
+                    ],
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedBookingFilter = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        function($event) {
+                          return _vm.updateList()
+                        }
+                      ]
+                    }
+                  },
+                  _vm._l(_vm.bookingFilterOptions, function(
+                    bookingFilterOption
+                  ) {
+                    return _c(
+                      "option",
+                      { domProps: { value: bookingFilterOption.value } },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(bookingFilterOption.title) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm.filteredBookings && _vm.filteredBookings.length > 0
                   ? [
                       _c("table", [
                         _vm._m(0),
                         _vm._v(" "),
                         _c(
                           "tbody",
-                          _vm._l(_vm.client.bookings, function(booking) {
+                          _vm._l(_vm.filteredBookings, function(booking) {
                             return _c("tr", { key: booking.id }, [
                               _c("td", [_vm._v(_vm._s(booking.booking_time))]),
                               _vm._v(" "),

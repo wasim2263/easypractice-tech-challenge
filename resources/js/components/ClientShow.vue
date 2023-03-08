@@ -38,8 +38,12 @@
                 <!-- Bookings -->
                 <div class="bg-white rounded p-4" v-if="currentTab == 'bookings'">
                     <h3 class="mb-3">List of client bookings</h3>
-
-                    <template v-if="client.bookings && client.bookings.length > 0">
+                    <select v-model="selectedBookingFilter" @change="updateList()">
+                        <option v-for="bookingFilterOption in bookingFilterOptions" :value="bookingFilterOption.value">
+                            {{ bookingFilterOption.title }}
+                        </option>
+                    </select>
+                    <template v-if="filteredBookings && filteredBookings.length > 0">
                         <table>
                             <thead>
                                 <tr>
@@ -49,7 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="booking in client.bookings" :key="booking.id">
+                                <tr v-for="booking in filteredBookings" :key="booking.id">
                                     <td>{{ booking.booking_time}}</td>
                                     <td>{{ booking.notes }}</td>
                                     <td>
@@ -87,6 +91,13 @@ export default {
     data() {
         return {
             currentTab: 'bookings',
+            filteredBookings: this.client.bookings,
+            bookingFilterOptions: [
+                { title: 'All', value: 'all' },
+                { title: 'Future', value: 'future' },
+                { title: 'Past', value: 'past' }
+            ],
+            selectedBookingFilter: 'all',
         }
     },
 
@@ -97,7 +108,30 @@ export default {
 
         deleteBooking(booking) {
             axios.delete(`/bookings/${booking.id}`);
-        }
+        },
+
+        updateList() {
+            const currentDateTime = (new Date()).getTime();
+            if (this.selectedBookingFilter === "future") {
+                this.filteredBookings = this.client.bookings.filter(
+                    booking => {
+                        const startDateTime = (new Date(booking.start)).getTime();
+                        return startDateTime > currentDateTime;
+                    }
+                )
+                console.log(this.filteredBookings)
+            } else if (this.selectedBookingFilter === "past") {
+
+                this.filteredBookings = this.client.bookings.filter(
+                    booking => {
+                        const startDateTime = (new Date(booking.start)).getTime();
+                        return startDateTime < currentDateTime;
+                    })
+            }
+            else {
+                this.filteredBookings = this.client.bookings;
+            }
+        },
     }
 }
 </script>
