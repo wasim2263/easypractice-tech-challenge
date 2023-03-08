@@ -10,7 +10,8 @@ class ClientsController extends Controller
     public function index()
     {
 //      Eager loading: it will make only 2 queries when the previous one used to make n+1 queries.
-        $clients = Client::with('bookings')->get();
+        $clients = Client::with('bookings')->withCount('bookings')->get();
+
         return view('clients.index', ['clients' => $clients]);
     }
 
