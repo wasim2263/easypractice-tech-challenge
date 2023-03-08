@@ -25,7 +25,9 @@ class ClientsController extends Controller
     {
         $client = Client::where('id', $clientId)
             ->where('user_id', $request->user()->id)
-            ->with('bookings')
+            ->with('bookings', function ($booking){
+                $booking->orderBy('start','desc');
+            })
             ->firstOrFail();
 
         return view('clients.show', ['client' => $client]);
