@@ -9,12 +9,8 @@ class ClientsController extends Controller
 {
     public function index()
     {
-        $clients = Client::all();
-
-        foreach ($clients as $client) {
-            $client->append('bookings_count');
-        }
-
+//      Eager loading: it will make only 2 queries when the previous one used to make n+1 queries.
+        $clients = Client::with('bookings')->get();
         return view('clients.index', ['clients' => $clients]);
     }
 
