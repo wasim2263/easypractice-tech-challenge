@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Http\Requests\ClientCreateRequest;
 use Illuminate\Http\Request;
 
 class ClientsController extends Controller
@@ -30,17 +31,12 @@ class ClientsController extends Controller
         return view('clients.show', ['client' => $client]);
     }
 
-    public function store(Request $request)
+    public function store(ClientCreateRequest $clientCreateRequest)
     {
-        $client = new Client;
-        $client->name = $request->get('name');
-        $client->email = $request->get('email');
-        $client->phone = $request->get('phone');
-        $client->address = $request->get('address');
-        $client->city = $request->get('city');
-        $client->postcode = $request->get('postcode');
-        $client->save();
-
+//      Improvements: Can use a repository and send the required values there to store the data.
+        $clientData = $clientCreateRequest->only('name', 'email', 'phone', 'address', 'city', 'postcode');
+        $clientData['user_id'] = $clientCreateRequest->user()->id;
+        $client = Client::create($clientData);
         return $client;
     }
 
@@ -50,7 +46,7 @@ class ClientsController extends Controller
             ->where('user_id', $request->user()->id)
             ->delete();
         if ($isDeleted) {
-            return response()->json(['message' => 'Deleted', 'client_id'=>$clientId], 200);
+            return response()->json(['message' => 'Deleted', 'client_id' => $clientId], 200);
         } else {
             return response()->json(['message' => 'Failed'], 404);
         }

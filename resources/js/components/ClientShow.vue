@@ -22,7 +22,7 @@
                             </tr>
                             <tr>
                                 <th class="text-gray-600 pr-3">Address</th>
-                                <td>{{ client.address }}<br/>{{ client.postcode + ' ' + client.city }}</td>
+                                <td>{{ client.address }}<br/>{{ client.postcode}} {{client.city}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,8 +79,6 @@
 
 <script>
 import axios from 'axios';
-import {diffieHellman} from "crypto";
-
 export default {
     name: 'ClientShow',
 
@@ -93,7 +91,6 @@ export default {
     },
 
     methods: {
-        diffieHellman,
         switchTab(newTab) {
             this.currentTab = newTab;
         },
