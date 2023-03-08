@@ -20,9 +20,9 @@ class ClientsController extends Controller
         return view('clients.create');
     }
 
-    public function show(Request $request, $client)
+    public function show(Request $request, $clientId)
     {
-        $client = Client::where('id', $client)
+        $client = Client::where('id', $clientId)
             ->where('user_id', $request->user()->id)
             ->with('bookings')
             ->firstOrFail();
@@ -44,10 +44,15 @@ class ClientsController extends Controller
         return $client;
     }
 
-    public function destroy($client)
+    public function destroy(Request $request, $clientId)
     {
-        Client::where('id', $client)->delete();
-
-        return 'Deleted';
+        $isDeleted = Client::where('id', $clientId)
+            ->where('user_id', $request->user()->id)
+            ->delete();
+        if ($isDeleted) {
+            return response()->json(['message' => 'Deleted', 'client_id'=>$clientId], 200);
+        } else {
+            return response()->json(['message' => 'Failed'], 404);
+        }
     }
 }

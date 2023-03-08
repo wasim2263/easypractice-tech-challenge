@@ -7550,9 +7550,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientsList',
   props: ['clients'],
+  data: function data() {
+    return {
+      clientList: this.clients
+    };
+  },
   methods: {
-    deleteClient: function deleteClient(client) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/clients/".concat(client.id));
+    deleteClient: function deleteClient(client, index) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/clients/".concat(client.id)).then(function (response) {
+        if (response.status == 200) {
+          var _response$data;
+
+          if (client.id == (response === null || response === void 0 ? void 0 : (_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.client_id)) {
+            var _response$data2;
+
+            _this.clientList.splice(index, 1);
+
+            alert(response === null || response === void 0 ? void 0 : (_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.message);
+          }
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 404) {
+          var _error$response, _error$response$data;
+
+          alert(error === null || error === void 0 ? void 0 : (_error$response = error.response) === null || _error$response === void 0 ? void 0 : (_error$response$data = _error$response.data) === null || _error$response$data === void 0 ? void 0 : _error$response$data.message);
+        }
+      });
     }
   }
 });
@@ -88880,7 +88905,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.clients, function(client) {
+        _vm._l(_vm.clientList, function(client, index) {
           return _c("tr", { key: client.id }, [
             _c("td", [_vm._v(_vm._s(client.name))]),
             _vm._v(" "),
@@ -88906,7 +88931,7 @@ var render = function() {
                   staticClass: "btn btn-danger btn-sm",
                   on: {
                     click: function($event) {
-                      return _vm.deleteClient(client)
+                      return _vm.deleteClient(client, index)
                     }
                   }
                 },
