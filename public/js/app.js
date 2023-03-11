@@ -2077,6 +2077,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientShow',
@@ -2085,6 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       currentTab: 'bookings',
       filteredBookings: this.client.bookings,
+      journals: this.client.journals,
       bookingFilterOptions: [{
         title: 'All bookings',
         value: 'all'
@@ -38301,13 +38326,59 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.currentTab == "journals"
-          ? _c("div", { staticClass: "bg-white rounded p-4" }, [
-              _c("h3", { staticClass: "mb-3" }, [
-                _vm._v("List of client journals")
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("(BONUS) TODO: implement this feature")])
-            ])
+          ? _c(
+              "div",
+              { staticClass: "bg-white rounded p-4" },
+              [
+                _c("h3", { staticClass: "mb-3" }, [
+                  _vm._v("List of client journals")
+                ]),
+                _vm._v(" "),
+                _vm.journals && _vm.journals.length > 0
+                  ? [
+                      _c("table", [
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.journals, function(journal) {
+                            return _c("tr", { key: journal.id }, [
+                              _c("td", [_vm._v(_vm._s(journal.journal_date))]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(journal.text))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteBooking(_vm.booking)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Delete\n                                "
+                                    )
+                                  ]
+                                )
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ]
+                  : [
+                      _c("p", { staticClass: "text-center" }, [
+                        _vm._v("The client has no journals.")
+                      ])
+                    ]
+              ],
+              2
+            )
           : _vm._e()
       ])
     ])
@@ -38323,6 +38394,20 @@ var staticRenderFns = [
         _c("th", [_vm._v("Time")]),
         _vm._v(" "),
         _c("th", [_vm._v("Notes")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Text")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])

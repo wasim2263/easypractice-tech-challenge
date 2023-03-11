@@ -6,7 +6,7 @@ use App\Http\Requests\ClientCreateRequest;
 use App\Models\Client;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class ClientController extends Controller
 {
     public function index(Request $request)
     {
@@ -28,8 +28,10 @@ class ClientsController extends Controller
             ->with('bookings', function ($booking){
                 $booking->orderBy('start','desc');
             })
+            ->with('journals', function ($journal){
+                $journal->orderBy('date','desc');
+            })
             ->firstOrFail();
-
         return view('clients.show', ['client' => $client]);
     }
 

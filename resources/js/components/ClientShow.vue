@@ -81,7 +81,31 @@
                 <div class="bg-white rounded p-4" v-if="currentTab == 'journals'">
                     <h3 class="mb-3">List of client journals</h3>
 
-                    <p>(BONUS) TODO: implement this feature</p>
+                    <template v-if="journals && journals.length > 0">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Text</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="journal in journals" :key="journal.id">
+                                <td>{{ journal.journal_date }}</td>
+                                <td>{{ journal.text }}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @click="deleteBooking(booking)">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </template>
+
+                    <template v-else>
+                        <p class="text-center">The client has no journals.</p>
+                    </template>
                 </div>
             </div>
         </div>
@@ -100,6 +124,7 @@ export default {
         return {
             currentTab: 'bookings',
             filteredBookings: this.client.bookings,
+            journals: this.client.journals,
             bookingFilterOptions: [
                 {title: 'All bookings', value: 'all'},
                 {title: 'Future bookings only', value: 'future'},
