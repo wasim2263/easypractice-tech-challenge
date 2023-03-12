@@ -45,7 +45,7 @@ export default {
                     }
                 }).catch(function (error) {
                 if (error.response.status == 422) {
-                    // TODO::need to show erros in the specific fields
+                    // TODO::need to show errors in the specific fields
                     alert(error?.response?.data?.message);
                 }
             });
