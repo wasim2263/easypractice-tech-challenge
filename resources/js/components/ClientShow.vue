@@ -80,7 +80,7 @@
                 <!-- Journals -->
                 <div class="bg-white rounded p-4" v-if="currentTab == 'journals'">
                     <h3 class="mb-3">List of client journals</h3>
-
+                    <a :href="journalCreateUrl" class=" btn btn-primary">+ New Journal</a>
                     <template v-if="journals && journals.length > 0">
                         <table>
                             <thead>
@@ -91,11 +91,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="journal in journals" :key="journal.id">
-                                <td>{{ journal.journal_date }}</td>
-                                <td>{{ journal.text }}</td>
+                            <tr v-for="(journal,index) in journals" :key="journal.id">
+                                <td>{{ journal.formatted_date }}</td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm" @click="deleteBooking(booking)">Delete
+                                    <span v-if="journal.text.length> 50">{{
+                                            journal.text.substring(0, 50) + "..."
+                                        }}</span>
+                                    <span v-else>{{ journal.text.substring(0, 50) }}</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" @click="viewJournal(journal)">view
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" @click="deleteJournal(journal, index)">Delete
                                     </button>
                                 </td>
                             </tr>
@@ -109,7 +116,51 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal toggle -->
+        <div
+            v-show="isModalOpen"
+            class="
+          absolute
+          inset-0
+          flex
+          items-center
+          justify-center
+          bg-gray-700 bg-opacity-50
+        "
+        >
+            <div class="max-w-2xl p-6 bg-white rounded-md shadow-xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-2xl">{{ selectedJournal.formatted_date }}</h3>
+                    <svg
+                        @click="isModalOpen = false"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-8 h-8 text-red-900 cursor-pointer"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                </div>
+                <div class="mt-4">
+                    <div v-html="selectedJournal.text">{{selectedJournal.text}}</div>
+                    <button
+                        @click="isModalOpen = false"
+                        class="px-6 py-2 text-blue-800 border border-blue-600 rounded"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -131,6 +182,12 @@ export default {
                 {title: 'Past bookings only"', value: 'past'}
             ],
             selectedBookingFilter: 'all',
+            isModalOpen: false,
+            selectedJournal: {
+                text: "",
+                formatted_date: ""
+            },
+            journalCreateUrl: `/clients/${this.client.id}/journals/create`
         }
     },
 
@@ -163,6 +220,27 @@ export default {
                 this.filteredBookings = this.client.bookings;
             }
         },
+        deleteJournal(journal, index) {
+            console.log(journal)
+            axios.delete(`/clients/${journal.client_id}/journals/${journal.id}`).then((response) => {
+                if (response.status == 200) {
+                    if (journal.id == response?.data?.journal_id) {
+                        this.journals.splice(index, 1)
+                        alert(response?.data?.message)
+                    }
+                }
+            }).catch(function (error) {
+                if (error.response.status == 404) {
+                    alert(error?.response?.data?.message);
+                }
+            });
+        },
+        viewJournal(journal) {
+            this.isModalOpen = true;
+            this.selectedJournal = journal;
+        },
+
+
     }
 }
 </script>

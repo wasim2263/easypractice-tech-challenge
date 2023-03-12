@@ -21,9 +21,9 @@ class Journal extends Model
         'date'
     ];
     protected $appends = [
-      'journal_date'
+      'formatted_date'
     ];
-    public function getJournalDateAttribute()
+    public function getformattedDateAttribute()
     {
         return $this->date->format('l d F Y');
     }

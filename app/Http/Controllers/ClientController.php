@@ -23,6 +23,7 @@ class ClientController extends Controller
 
     public function show(Request $request, $clientId)
     {
+//      Improvements: Move it to repository and call the methods only
         $client = Client::where('id', $clientId)
             ->where('user_id', $request->user()->id)
             ->with('bookings', function ($booking){
