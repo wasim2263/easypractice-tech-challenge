@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Booking;
 use App\Models\Client;
+use App\Models\Journal;
 use Illuminate\Database\Seeder;
 
-class BookingSeeder extends Seeder
+class JournalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,13 +14,12 @@ class BookingSeeder extends Seeder
     public function run()
     {
         $clients = Client::all();
-
         foreach ($clients as $client) {
-            $numberOfBookings = rand(0, 30);
-
-            factory(Booking::class, $numberOfBookings)->create([
-                'client_id' => $client->id,
+            $numberOfJournals = rand(0, 5);
+            factory(Journal::class, $numberOfJournals)->create([
+                 'client_id' => $client->id,
             ]);
         }
+
     }
 }
